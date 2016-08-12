@@ -2,19 +2,25 @@
 
 
 class KeyWords:
-    """ Contains keywords/ phrases for the bot"""
+    """ Contains keywords/ phrases for the bot.
+        Since the input similarity check gets divided by how many words were messaged,
+        any number of words in the greeting phrase can still be matched.
+    """
     def __init__(self):
         self.GREETING_PHRASES = [
-            ["hello", "how", "are", "you"],
+            ["hello", "how", "are", "you", "doing"],
             ["hey", "what's", "up"],
             ["hi", "how", "is", "it", "going"],
-            ["yo", "what's", "going", "on"]
+            ["yo", "what's", "going", "on"],
+            ["how", "is", "your", "day", "going"],
+            ["good", "morning", "afternoon", "night", "evening"],  # will likely type good {something}
+            ["nice", "to", "meet", "you"],
+            ["hey", "how", "goes", "it"]
         ]
 
         self.ABOUT_SELF = [
             ["Who", "are", "you"],
-            ["what", "is", "your", "name"],
-            ["what", "do", "you", "do"]
+            ["what", "is", "your", "name"]
         ]
 
         self.MENU_PHRASES = [
@@ -39,6 +45,12 @@ class Responses:
         self.UNSURE_RESPONSES = ["Ahhh ya got me, I'm not sure what to say :3"]  # I'll make sure this doesn't happen
 
 
+# Don't check these when assessing phrase similarity
+unimportant_words = [
+    "it",
+    "is",
+]
+
 # Used for fixing user typos or laziness
 slang_typo_dict = {
             "ngl": "not going to lie",
@@ -52,5 +64,6 @@ slang_typo_dict = {
             "wadup": "what's up",
             "wats": "what's",
             "wat": "what",
-            "wut": "what"
+            "wut": "what",
+            "hbu": "how about you"
             }

@@ -19,7 +19,7 @@ class SexxiBot:
         self.response = str()
 
     def fix_typos(self):
-        self.user_input = TextBlob(self.user_input.lower()).tags    # Do this once; fix_typos must always run first
+        self.user_input = TextBlob(self.user_input.lower()).tags
         self.input_len = len(self.user_input)                       # This too; so you don't need to keep checking
 
         # Fix lazy user typos, or slang
@@ -39,11 +39,13 @@ class SexxiBot:
         return False
 
     def greeting_check(self):
+        self.user_input = TextBlob(self.user_input.lower()).tags  # Do this once; greeting_check must run first
         for phrase in keywords.GREETING_PHRASES:
-            score = float()
+            score = float(0)
             for word in self.user_input:
                 for n in phrase:
-                    score += liquidmetal.score(n, word[0]) / self.input_len
+                    if word and n not in behaviours.unimportant_words:
+                        score += liquidmetal.score(n, word[0]) / self.input_len
             if score >= 0.7:    # Could be increased/ decreased through testing to find more optimal value
                 self.response = random.choice(responses.GREETING_RESPONSES)
                 return True
@@ -54,7 +56,9 @@ class SexxiBot:
             score = float()
             for word in self.user_input:
                 for n in phrase:
-                    score += liquidmetal.score(n, word[0]) / self.input_len
+                    if word and n not in behaviours.unimportant_words:
+                        score += liquidmetal.score(n, word[0]) / self.input_len
+            print score
             if score >= 0.7:
                 self.response = random.choice(responses.SELF_RESPONSES)
                 return True
@@ -65,7 +69,8 @@ class SexxiBot:
             score = float()
             for word in self.user_input:
                 for n in phrase:
-                    score += liquidmetal.score(n, word[0]) / self.input_len
+                    if word and n not in behaviours.unimportant_words:
+                        score += liquidmetal.score(n, word[0]) / self.input_len
             if score >= 0.7:
                 self.response = random.choice(responses.SELF_RESPONSES)
                 return True
@@ -73,8 +78,7 @@ class SexxiBot:
 
     def create_response(self):  # Not really working yet
         # Craft a response based on user's message
-        self.user_input = TextBlob(self.user_input)
-        noun, pronoun, verb, adj, prep, text_len = check_pos_tags.pos_tags(self.user_input.tags)
+        noun, pronoun, verb, adj, prep, text_len = check_pos_tags.pos_tags(self.user_input)
         self.response = format_response.craft_response(noun, pronoun, verb, adj, prep, text_len)
         return False
 
@@ -82,15 +86,16 @@ class SexxiBot:
 # For Testing Purposes
 if __name__ == '__main__':
     bot = SexxiBot()
-    bot.user_input = "hey, wasup?"  # Would receive input from user of course
+    bot.user_input = "What foods do you like"  # Would receive input from user of course
 
     bot.fix_typos()
+
     print bot.user_input
+
     if not bot.help_check():
         if not bot.greeting_check():
             if not bot.asked_about_self():
                 if not bot.menu_check():
-                    pass
-                    # bot.create_response()  # If all key phrases fail, we gotta actually make a new sentence :)
+                    bot.create_response()  # If all key phrases fail, we gotta actually make a new sentence :)
 
     print "Response:", bot.response
