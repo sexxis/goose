@@ -9,10 +9,10 @@ class KeyWords:
     def __init__(self):
         self.GREETING_PHRASES = [
             ["hello", "how", "are", "you", "doing"],
-            ["hey", "what's", "up"],
-            ["hi", "how", "is", "it", "going"],
-            ["yo", "what's", "going", "on"],
-            ["how", "is", "your", "day", "going"],
+            ["hey", "what 's", "up"],
+            ["hi", "how 's", "it", "going"],  # Note: words with 's must have a space before due to TextBlob.tags
+            ["yo", "what 's", "going", "on"],
+            ["how 's", "your", "day", "going"],
             ["good", "morning", "afternoon", "night", "evening"],  # will likely type good {something}
             ["nice", "to", "meet", "you"],
             ["hey", "how", "goes", "it"]
@@ -24,13 +24,21 @@ class KeyWords:
         ]
 
         self.MENU_PHRASES = [
-            ["what", "is", "on", "the", "menu", "at", "v1"]
+            ["what 's", "on", "the", "menu", "at", "v1"]
+        ]
+
+        self.WEATHER_PHRASES = [
+            ["what 's", "the", "current", "weather", "in", "waterloo"]
         ]
 
 
 class Responses:
     """ Contains simple responses for the bot"""
     def __init__(self):
+        self.HELP_RESPONSE = "Try asking: " \
+                             "What is the current weather in Waterloo? " \
+                             "What is on the v1 menu?"
+
         self.GREETING_RESPONSES = ["what's up?",
                                    "hey!",
                                    "Today is a great day, how are you?"
@@ -38,18 +46,25 @@ class Responses:
 
         self.SELF_RESPONSES = ["I do and feel nothing, I'm a robot :)",
                                "My favourite thing is being Sexxi",
-                               "My name is Goose"]
+                               "My name is Goose"
+                               ]
 
-        self.MENU_RESPONSES = list()  # Will need to look up
+        self.MENU_RESPONSES = ["The v1 menu contains: "]  # Will need to look up
 
-        self.UNSURE_RESPONSES = ["Ahhh ya got me, I'm not sure what to say :3"]  # I'll make sure this doesn't happen
+        self.WEATHER_RESPONSES = ["The current weather in Waterloo is: "]
+
+        self.UNSURE_RESPONSES = ["Try telling me something else",
+                                 "Sorry, I didn't quite get that",
+                                 "Can you rephrase that?",
+                                 ]
 
 
 # Don't check these when assessing phrase similarity
 unimportant_words = [
     "it",
     "is",
-]
+    "to"
+    ]
 
 # Used for fixing user typos or laziness
 slang_typo_dict = {
@@ -59,7 +74,6 @@ slang_typo_dict = {
             "im": "I'm",
             "i'm": "I'm",
             "u": "you",
-            "how's": "how is",
             "wasup": "what's up",
             "wadup": "what's up",
             "wats": "what's",

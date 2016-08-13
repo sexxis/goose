@@ -20,8 +20,6 @@ class SexxiBot:
 
     def fix_typos(self):
         self.user_input = TextBlob(self.user_input.lower()).tags
-        self.input_len = len(self.user_input)                       # This too; so you don't need to keep checking
-
         # Fix lazy user typos, or slang
         words = list()
         for i in self.user_input:
@@ -34,14 +32,15 @@ class SexxiBot:
 
     def help_check(self):
         if self.user_input.lower() == "help":
-            # Will list possible commands/ etc
-            return True
-        return False
+            self.response = responses.HELP_RESPONSE
+            return True  # Stop, as we know what category of input we're dealing with
+        return False  # User didn't ask for help, move on to greeting_check
 
     def greeting_check(self):
         self.user_input = TextBlob(self.user_input.lower()).tags  # Do this once; greeting_check must run first
+        self.input_len = len(self.user_input)                     # Find this once too; will be used for scoring
         for phrase in keywords.GREETING_PHRASES:
-            score = float(0)
+            score = float()
             for word in self.user_input:
                 for n in phrase:
                     if word and n not in behaviours.unimportant_words:
@@ -58,21 +57,32 @@ class SexxiBot:
                 for n in phrase:
                     if word and n not in behaviours.unimportant_words:
                         score += liquidmetal.score(n, word[0]) / self.input_len
-            print score
             if score >= 0.7:
                 self.response = random.choice(responses.SELF_RESPONSES)
                 return True
         return False
 
     def menu_check(self):
-        for phrase in keywords.ABOUT_SELF:
+        for phrase in keywords.MENU_PHRASES:
             score = float()
             for word in self.user_input:
                 for n in phrase:
                     if word and n not in behaviours.unimportant_words:
                         score += liquidmetal.score(n, word[0]) / self.input_len
             if score >= 0.7:
-                self.response = random.choice(responses.SELF_RESPONSES)
+                self.response = responses.MENU_RESPONSES[0]
+                return True
+        return False
+
+    def weather_check(self):
+        for phrase in keywords.WEATHER_PHRASES:
+            score = float()
+            for word in self.user_input:
+                for n in phrase:
+                    if word and n not in behaviours.unimportant_words:
+                        score += liquidmetal.score(n, word[0]) / self.input_len
+            if score >= 0.7:
+                self.response = responses.WEATHER_RESPONSES[0]
                 return True
         return False
 
@@ -80,22 +90,38 @@ class SexxiBot:
         # Craft a response based on user's message
         noun, pronoun, verb, adj, prep, text_len = check_pos_tags.pos_tags(self.user_input)
         self.response = format_response.craft_response(noun, pronoun, verb, adj, prep, text_len)
-        return False
+        print self.response
+        return False if self.response == ' ' else True
 
 
-# For Testing Purposes
-if __name__ == '__main__':
+def run_bot(user_message, start):
     bot = SexxiBot()
-    bot.user_input = "What foods do you like"  # Would receive input from user of course
+    if start:
+        bot.response = "Hello there! Have a chat with me or say 'help' to see available commands :)"
+        return bot.response
 
+    bot.user_input = user_message
     bot.fix_typos()
-
-    print bot.user_input
-
     if not bot.help_check():
         if not bot.greeting_check():
             if not bot.asked_about_self():
                 if not bot.menu_check():
-                    bot.create_response()  # If all key phrases fail, we gotta actually make a new sentence :)
+                    if not bot.weather_check():
+                        if not bot.create_response():  # If all key phrases fail, we gotta actually make a new sentence
+                            bot.response = responses.UNSURE_RESPONSES[0]  # If no response can be created
+    return bot.response
 
-    print "Response:", bot.response
+
+# For testing purposes
+def main():
+    start = True
+    while 1:
+        print run_bot(raw_input("Enter a message"), start)
+        start = False
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

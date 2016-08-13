@@ -37,7 +37,7 @@ def craft_response(noun, pronoun, verb, adj, prep, text_len):
     if verb_last:
         resp.append(verb[0])
 
-    return " ".join(resp)
+    return" "  # .join(resp)
 
 
 def vowel_start(word):
