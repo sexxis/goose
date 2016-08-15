@@ -51,7 +51,11 @@ class Responses:
 
         self.MENU_RESPONSES = ["The v1 menu contains: "]  # Will need to look up
 
-        self.WEATHER_RESPONSES = ["The current weather in Waterloo is: "]
+        self.WEATHER_RESPONSES = ["The current weather in Waterloo is: ",
+                                  " and no rain",
+                                  " and some rain",
+                                  " and heavy rain"
+                                  ]
 
         self.UNSURE_RESPONSES = ["Try telling me something else",
                                  "Sorry, I didn't quite get that",
