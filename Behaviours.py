@@ -18,6 +18,11 @@ class KeyWords:
             ["hey", "how", "goes", "it"]
         ]
 
+        self.FUN_PHRASES = [
+            ["thanks", "mister", "goose"],
+            ["who", "do", "you", "miss", "the", "most"]
+        ]
+
         self.ABOUT_SELF = [
             ["Who", "are", "you"],
             ["what", "is", "your", "name"]
@@ -43,6 +48,10 @@ class Responses:
                                    "hey!",
                                    "Today is a great day, how are you?"
                                    ]
+
+        self.FUN_RESPONSES = ["np",
+                              "harambe ;-;"
+                              ]
 
         self.SELF_RESPONSES = ["I do and feel nothing, I'm a robot :)",
                                "My favourite thing is being Sexxi",
@@ -83,5 +92,7 @@ slang_typo_dict = {
             "wats": "what's",
             "wat": "what",
             "wut": "what",
-            "hbu": "how about you"
+            "hbu": "how about you",
+            "thank": "thanks",
+            "mr" : "mister"
             }
