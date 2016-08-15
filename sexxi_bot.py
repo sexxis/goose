@@ -1,6 +1,7 @@
 from textblob import TextBlob
 from generate_response import format_response
 from generate_response import check_pos_tags
+from waterloo_api_data import connections
 from stringscore import liquidmetal
 import behaviours
 import random
@@ -82,7 +83,12 @@ class SexxiBot:
                     if word and n not in behaviours.unimportant_words:
                         score += liquidmetal.score(n, word[0]) / self.input_len
             if score >= 0.7:
-                self.response = responses.WEATHER_RESPONSES[0]
+                temp = connections.get_temperature()
+                self.response = responses.WEATHER_RESPONSES[0] + temp[0]
+                if temp[1]:  # There is rain
+                    self.response += responses.WEATHER_RESPONSES[2]
+                else:
+                    self.response += responses.WEATHER_RESPONSES[1]
                 return True
         return False
 
