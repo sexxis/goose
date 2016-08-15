@@ -122,7 +122,7 @@ def run_bot(user_message, start):
 def main():
     start = True
     while 1:
-        print run_bot(raw_input("Enter a message"), start)
+        print run_bot(raw_input("Enter a message: "), start)
         start = False
 
 
