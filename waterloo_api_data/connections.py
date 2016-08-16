@@ -13,5 +13,12 @@ def get_temperature():
 
 
 def get_menu(location):
+    menu = uw.menu()
     # Will return the menu at asked Waterloo location
     pass
+
+
+def get_buildings():
+    buildings = uw.building_list()
+    for i in range(len(buildings)):
+        return buildings[i]["building_name"] + ",",
