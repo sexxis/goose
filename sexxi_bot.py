@@ -1,6 +1,5 @@
 from textblob import TextBlob
-from generate_response import format_response
-from generate_response import check_pos_tags
+from generate_response import format_response, check_pos_tags
 from waterloo_api_data import connections
 from stringscore import liquidmetal
 import behaviours
@@ -117,7 +116,7 @@ def run_bot(user_message, start):
         bot.response = "Hello there! Have a chat with me or say 'help' to see available commands :)"
         return bot.response
 
-    bot.user_input = user_message
+    bot.user_input = raw_input(user_message)
     bot.fix_typos()
     
     #fun_check: do fun_check before greeting_check because we are looking for specific things
@@ -132,7 +131,7 @@ def run_bot(user_message, start):
 def main():
     start = True
     while 1:
-        print run_bot(raw_input("Enter a message: "), start)
+        print run_bot("Enter a message: ", start)
         start = False
 
 # Make sure it's only when we're running this file directly
