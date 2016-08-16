@@ -124,7 +124,7 @@ def run_bot(user_message, start):
     #create_response:  If all key phrases fail, we gotta actually make a new sentence
     for method in ['help_check','fun_check','greeting_check','asked_about_self','menu_check','weather_check','create_response']:
       if operator.methodcaller(method)(bot):
-        return bot.responseoperator.methodcaller(method)
+        return bot.response
     return responses.UNSURE_RESPONSES[0]; # If no response can be created
 
 
@@ -135,7 +135,7 @@ def main():
         print run_bot(raw_input("Enter a message: "), start)
         start = False
 
-
+# Make sure it's only when we're running this file directly
 if __name__ == '__main__':
     try:
         main()
