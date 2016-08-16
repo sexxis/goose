@@ -1,0 +1,6 @@
+nltk==3.2.1
+requests==2.11.0
+shad==0.1.5
+stringscore==0.1.0
+textblob==0.11.1
+uwaterlooapi==0.3.0
