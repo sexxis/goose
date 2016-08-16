@@ -38,7 +38,7 @@ class SexxiBot:
         return False  # User didn't ask for help, move on to greeting_check
 
     def greeting_check(self):
-        self.user_input = TextBlob(self.user_input.lower()).tags  # Do this once; greeting_check must run first
+        self.user_input = self.user_input.tags  # Do this once; greeting_check must run first
         self.input_len = len(self.user_input)                     # Find this once too; will be used for scoring
         for phrase in keywords.GREETING_PHRASES:
             score = float()
@@ -48,6 +48,16 @@ class SexxiBot:
                         score += liquidmetal.score(n, word[0]) / self.input_len
             if score >= 0.7:    # Could be increased/ decreased through testing to find more optimal value
                 self.response = random.choice(responses.GREETING_RESPONSES)
+                return True
+        return False
+
+    def fun_check(self):
+        #disclaimer: i don't know any NLP so i'm just matching stuff like "thank mr goose"
+        self.user_input = TextBlob(self.user_input.lower())
+        for phrase in keywords.FUN_PHRASES:
+            if phrase == self.user_input.words:
+                n = [i for i, x in enumerate(keywords.FUN_PHRASES) if x == phrase][0]
+                self.response = responses.FUN_RESPONSES[n]
                 return True
         return False
 
@@ -109,12 +119,13 @@ def run_bot(user_message, start):
     bot.user_input = user_message
     bot.fix_typos()
     if not bot.help_check():
-        if not bot.greeting_check():
-            if not bot.asked_about_self():
-                if not bot.menu_check():
-                    if not bot.weather_check():
-                        if not bot.create_response():  # If all key phrases fail, we gotta actually make a new sentence
-                            bot.response = responses.UNSURE_RESPONSES[0]  # If no response can be created
+        if not bot.fun_check(): #do this before the greeting because we are looking for specific things
+            if not bot.greeting_check():
+                if not bot.asked_about_self():
+                    if not bot.menu_check():
+                        if not bot.weather_check():
+                            if not bot.create_response():  # If all key phrases fail, we gotta actually make a new sentence
+                                bot.response = responses.UNSURE_RESPONSES[0]  # If no response can be created
     return bot.response
 
 
@@ -122,7 +133,7 @@ def run_bot(user_message, start):
 def main():
     start = True
     while 1:
-        print run_bot(raw_input("Enter a message"), start)
+        print run_bot(raw_input("Enter a message: "), start)
         start = False
 
 
