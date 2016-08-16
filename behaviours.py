@@ -94,5 +94,5 @@ slang_typo_dict = {
             "wut": "what",
             "hbu": "how about you",
             "thank": "thanks",
-            "mr" : "mister"
+            "mr": "mister"
             }

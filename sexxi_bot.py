@@ -1,12 +1,28 @@
 from textblob import TextBlob
-from generate_response import format_response
-from generate_response import check_pos_tags
+from generate_response import format_response, check_pos_tags
 from waterloo_api_data import connections
 from stringscore import liquidmetal
 import behaviours
 import random
+import operator
+import sys
 
 __author__ = "Waterloo SE'XXI"
+
+
+class Unbuffered(object):
+    def __init__(self, stream):
+        self.stream = stream
+
+    def write(self, data):
+        self.stream.write(data)
+        self.stream.flush()
+
+    def __getattr__(self, attr):
+        return getattr(self.stream, attr)
+
+
+sys.stdout = Unbuffered(sys.stdout)
 
 keywords = behaviours.KeyWords()
 responses = behaviours.Responses()
@@ -52,7 +68,7 @@ class SexxiBot:
         return False
 
     def fun_check(self):
-        #disclaimer: i don't know any NLP so i'm just matching stuff like "thank mr goose"
+        # disclaimer: i don't know any NLP so i'm just matching stuff like "thank mr goose"
         self.user_input = TextBlob(self.user_input.lower())
         for phrase in keywords.FUN_PHRASES:
             if phrase == self.user_input.words:
@@ -116,27 +132,26 @@ def run_bot(user_message, start):
         bot.response = "Hello there! Have a chat with me or say 'help' to see available commands :)"
         return bot.response
 
-    bot.user_input = user_message
+    bot.user_input = raw_input(user_message)
     bot.fix_typos()
-    if not bot.help_check():
-        if not bot.fun_check(): #do this before the greeting because we are looking for specific things
-            if not bot.greeting_check():
-                if not bot.asked_about_self():
-                    if not bot.menu_check():
-                        if not bot.weather_check():
-                            if not bot.create_response():  # If all key phrases fail, we gotta actually make a new sentence
-                                bot.response = responses.UNSURE_RESPONSES[0]  # If no response can be created
-    return bot.response
+
+    # fun_check: do fun_check before greeting_check because we are looking for specific things
+    # create_response:  If all key phrases fail, we gotta actually make a new sentence
+    for method in ['help_check', 'fun_check', 'greeting_check', 'asked_about_self',
+                   'menu_check', 'weather_check', 'create_response']:
+        if operator.methodcaller(method)(bot):
+            return bot.response
+    return responses.UNSURE_RESPONSES[0]  # If no response can be created
 
 
 # For testing purposes
 def main():
     start = True
     while 1:
-        print run_bot(raw_input("Enter a message: "), start)
+        print run_bot("Enter a message: ", start)
         start = False
 
-
+# Make sure it's only when we're running this file directly
 if __name__ == '__main__':
     try:
         main()
