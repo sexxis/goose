@@ -5,21 +5,24 @@ from stringscore import liquidmetal
 import behaviours
 import random
 import operator
-
-class Unbuffered(object):
-   def __init__(self, stream):
-       self.stream = stream
-   def write(self, data):
-       self.stream.write(data)
-       self.stream.flush()
-   def __getattr__(self, attr):
-       return getattr(self.stream, attr)
-
 import sys
-sys.stdout = Unbuffered(sys.stdout)
-
 
 __author__ = "Waterloo SE'XXI"
+
+
+class Unbuffered(object):
+    def __init__(self, stream):
+        self.stream = stream
+
+    def write(self, data):
+        self.stream.write(data)
+        self.stream.flush()
+
+    def __getattr__(self, attr):
+        return getattr(self.stream, attr)
+
+
+sys.stdout = Unbuffered(sys.stdout)
 
 keywords = behaviours.KeyWords()
 responses = behaviours.Responses()
@@ -65,7 +68,7 @@ class SexxiBot:
         return False
 
     def fun_check(self):
-        #disclaimer: i don't know any NLP so i'm just matching stuff like "thank mr goose"
+        # disclaimer: i don't know any NLP so i'm just matching stuff like "thank mr goose"
         self.user_input = TextBlob(self.user_input.lower())
         for phrase in keywords.FUN_PHRASES:
             if phrase == self.user_input.words:
@@ -131,13 +134,14 @@ def run_bot(user_message, start):
 
     bot.user_input = raw_input(user_message)
     bot.fix_typos()
-    
-    #fun_check: do fun_check before greeting_check because we are looking for specific things
-    #create_response:  If all key phrases fail, we gotta actually make a new sentence
-    for method in ['help_check','fun_check','greeting_check','asked_about_self','menu_check','weather_check','create_response']:
-      if operator.methodcaller(method)(bot):
-        return bot.response
-    return responses.UNSURE_RESPONSES[0]; # If no response can be created
+
+    # fun_check: do fun_check before greeting_check because we are looking for specific things
+    # create_response:  If all key phrases fail, we gotta actually make a new sentence
+    for method in ['help_check', 'fun_check', 'greeting_check', 'asked_about_self',
+                   'menu_check', 'weather_check', 'create_response']:
+        if operator.methodcaller(method)(bot):
+            return bot.response
+    return responses.UNSURE_RESPONSES[0]  # If no response can be created
 
 
 # For testing purposes
