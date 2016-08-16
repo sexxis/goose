@@ -5,6 +5,7 @@ from waterloo_api_data import connections
 from stringscore import liquidmetal
 import behaviours
 import random
+import operator
 
 __author__ = "Waterloo SE'XXI"
 
@@ -118,15 +119,13 @@ def run_bot(user_message, start):
 
     bot.user_input = user_message
     bot.fix_typos()
-    if not bot.help_check():
-        if not bot.fun_check(): #do this before the greeting because we are looking for specific things
-            if not bot.greeting_check():
-                if not bot.asked_about_self():
-                    if not bot.menu_check():
-                        if not bot.weather_check():
-                            if not bot.create_response():  # If all key phrases fail, we gotta actually make a new sentence
-                                bot.response = responses.UNSURE_RESPONSES[0]  # If no response can be created
-    return bot.response
+    
+    #fun_check: do fun_check before greeting_check because we are looking for specific things
+    #create_response:  If all key phrases fail, we gotta actually make a new sentence
+    for method in ['help_check','fun_check','greeting_check','asked_about_self','menu_check','weather_check','create_response']:
+      if operator.methodcaller(method)(bot):
+        return bot.responseoperator.methodcaller(method)
+    return responses.UNSURE_RESPONSES[0]; # If no response can be created
 
 
 # For testing purposes
