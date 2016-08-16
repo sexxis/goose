@@ -126,8 +126,10 @@ class SexxiBot:
         return False if self.response == ' ' else True
 
 
+bot = SexxiBot()  # Instantiate the bot
+
+
 def run_bot(user_message, start):
-    bot = SexxiBot()
     if start:
         bot.response = "Hello there! Have a chat with me or say 'help' to see available commands :)"
         return bot.response
