@@ -4,9 +4,10 @@ PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']  # Used for 
 
 
 class KeyWords:
-    """ Contains keywords/ phrases for the bot.
-        Since the input similarity check gets divided by how many words were messaged,
-        any number of words in the greeting phrase can still be matched.
+    """
+    Contains keywords/ phrases for the bot.
+    Since the input similarity check gets divided by how many words were messaged,
+    any number of words in the greeting phrase can still be matched.
     """
     def __init__(self):
         self.GREETING = [
