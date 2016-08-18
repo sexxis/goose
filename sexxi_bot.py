@@ -89,7 +89,7 @@ def run_bot(user_message, start):
     # fix_typos:    Fix any user typos and slang
     # check_phrase_similarity:  Check user's input similarity to all key phrases
     # create_response:  If all key phrases fail, we gotta actually make a new sentence
-    for method in ['fix_typos', 'check_phrase_similarity', 'create_response']:
+    for method in ['fix_typos', 'help_check', 'check_phrase_similarity', 'create_response']:
         if operator.methodcaller(method)(bot):
             return bot.response
     return random.choice(responses.UNSURE)  # If no response can be created

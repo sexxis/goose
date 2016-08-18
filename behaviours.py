@@ -3,6 +3,7 @@ from waterloo_api_data import connections
 
 PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']
 
+
 class KeyWords:
     """ Contains keywords/ phrases for the bot.
         Since the input similarity check gets divided by how many words were messaged,

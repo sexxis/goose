@@ -1,5 +1,6 @@
 import nltk
 
+
 def main():
     nltk_deps = ['punkt', 'averaged_perceptron_tagger']
     print 'Checking nltk deps...'
