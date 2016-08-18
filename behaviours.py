@@ -1,7 +1,6 @@
-# Help out by adding to/ improving these lists!!!
 from waterloo_api_data import connections
 
-PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']
+PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']  # Used for both KeyWords and Responses
 
 
 class KeyWords:
@@ -63,7 +62,7 @@ class Responses:
 
         self.MENU = ["The v1 menu contains: "]  # Will need to look up
 
-        weather = connections.get_temperature()
+        weather = connections.get_temperature()  # Find weather
         self.WEATHER = ["The current weather in Waterloo is: " + weather[0]]
         if weather[1]:  # There is rain
             self.WEATHER[0] += " and some rain"

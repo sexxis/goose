@@ -45,17 +45,17 @@ class SexxiBot:
             if words[part] in behaviours.slang_typo_dict.keys():
                 words[part] = behaviours.slang_typo_dict[words[part]]
         self.user_input = ' '.join(words)
-        return False
+        return False  # Returns false to move on to help_check
 
     def help_check(self):
         if self.user_input.lower() == "help":
             self.response = responses.HELP
-            return True  # Stop, as we know what category of input we're dealing with
-        return False  # User didn't ask for help, move on to greeting_check
+            return True
+        return False  # User didn't ask for help, move on to check_phrase_similarity
 
     def check_phrase_similarity(self):
-        self.user_input = TextBlob(self.user_input.lower()).tags  # Do this once; greeting_check must run first
-        self.input_len = len(self.user_input)  # Find this once too; will be used for scoring
+        self.user_input = TextBlob(self.user_input.lower()).tags
+        self.input_len = len(self.user_input)
         for phrase_type in behaviours.PHRASE_TYPES:
             for phrase in getattr(keywords, phrase_type):
                 score = float()
@@ -68,7 +68,7 @@ class SexxiBot:
                     return True
         return False
 
-    def create_response(self):  # Not really working yet
+    def create_response(self):  # NOT WORKING YET!
         # Craft a response based on user's message
         noun, pronoun, verb, adj, prep, text_len = check_pos_tags.pos_tags(self.user_input)
         self.response = format_response.craft_response(noun, pronoun, verb, adj, prep, text_len)
@@ -106,5 +106,5 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except KeyboardInterrupt:
+    except KeyboardInterrupt:  # No need for an error when stopping the program during testing
         pass
