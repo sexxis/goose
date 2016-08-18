@@ -1,6 +1,7 @@
 # Help out by adding to/ improving these lists!!!
 from waterloo_api_data import connections
 
+PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']
 
 class KeyWords:
     """ Contains keywords/ phrases for the bot.

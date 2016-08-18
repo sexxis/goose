@@ -56,7 +56,7 @@ class SexxiBot:
     def check_phrase_similarity(self):
         self.user_input = TextBlob(self.user_input.lower()).tags  # Do this once; greeting_check must run first
         self.input_len = len(self.user_input)  # Find this once too; will be used for scoring
-        for phrase_type in ['GREETING', 'ABOUT_SELF', 'MENU', 'WEATHER', 'FUN']:
+        for phrase_type in behaviours.PHRASE_TYPES:
             for phrase in getattr(keywords, phrase_type):
                 score = float()
                 for word in self.user_input:
