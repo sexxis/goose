@@ -24,3 +24,6 @@ To start the interactive chat console, run the following in project root
 $ ./scripts/start.sh
 ```
 When you finish, run `deactivate` to exit virtualenv
+
+#### PyCharm IDE is recomended (makes life better)
+Download: https://www.jetbrains.com/pycharm/specials/pycharm/pycharm.html?&gclid=Cj0KEQjwouW9BRCN0ozIifTI6_cBEiQAD9gNsUWQ_sGy6IZ9sHIfGD53jGgCCD6fDgySWi100dK-ew0aAmw08P8HAQ&gclsrc=aw.ds.ds&dclid=CK-2oPyV1M4CFY1xAQodsSgJbg
