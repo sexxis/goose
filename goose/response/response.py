@@ -1,8 +1,7 @@
 from textblob import TextBlob
 from stringscore import liquidmetal
 from utils import format_response, check_pos_tags
-from constants import (KeyWords, Responses, slang_typo_dict, PHRASE_TYPES,
-                       unimportant_words)
+from constants import *
 import random
 import operator
 import sys
