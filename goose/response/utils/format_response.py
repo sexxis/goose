@@ -31,7 +31,7 @@ def craft_response(noun, pronoun, verb, adj, prep, text_len):
 
     if noun:
         pronoun = "an" if vowel_start(noun) else "a"
-            #resp.append(pronoun + " " + noun)
+        #resp.append(pronoun + " " + noun)
         resp.append(noun)
 
     if verb_last:

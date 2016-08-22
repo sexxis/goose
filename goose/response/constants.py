@@ -1,4 +1,4 @@
-from waterloo_api_data import connections
+from goose.waterloo import connections
 
 PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']  # Used for both KeyWords and Responses
 
