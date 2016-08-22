@@ -1,8 +1,8 @@
 # goose
 Dank chatbot interface for Waterloo's Open Data API!
 
-Uses the textblob package for python 2.7, so make sure to have that installed :D
-Also uses stringscore package to rate input string similarity to key phrases
+### How it works, simplified
+User input is recieved by Mr. Goose, which is then compared to key phrases to check for phrase similarity. If an input phrase is considered similar enough to a key phrase, an applicable response phrase is triggered and sent back to the user. If the input cannot be classified as a key phrase category, then a new response will be generated. On the case of the user input triggering an api command, the bot will fetch the appropriate data from the waterloo api and send the user a formated response with the aquired data.
 
 # Developer setup
 
