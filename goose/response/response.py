@@ -1,7 +1,8 @@
 from textblob import TextBlob
-from generate_response import format_response, check_pos_tags
 from stringscore import liquidmetal
-import behaviours
+from utils import format_response, check_pos_tags
+from constants import (KeyWords, Responses, slang_typo_dict, PHRASE_TYPES,
+                       unimportant_words)
 import random
 import operator
 import sys
@@ -23,8 +24,8 @@ class Unbuffered(object):
 
 sys.stdout = Unbuffered(sys.stdout)
 
-keywords = behaviours.KeyWords()
-responses = behaviours.Responses()
+keywords = KeyWords()
+responses = Responses()
 
 
 class SexxiBot:
@@ -49,8 +50,8 @@ class SexxiBot:
             words.append(i[0])
 
         for part in range(len(words)):
-            if words[part] in behaviours.slang_typo_dict.keys():
-                words[part] = behaviours.slang_typo_dict[words[part]]
+            if words[part] in slang_typo_dict.keys():
+                words[part] = slang_typo_dict[words[part]]
         self.user_input = ' '.join(words)
         return False  # Returns false to move on to help_check
 
@@ -63,12 +64,12 @@ class SexxiBot:
     def check_phrase_similarity(self):
         self.user_input = TextBlob(self.user_input.lower()).tags
         self.input_len = len(self.user_input)
-        for phrase_type in behaviours.PHRASE_TYPES:
+        for phrase_type in PHRASE_TYPES:
             for phrase in getattr(keywords, phrase_type):
                 score = float()
                 for word in self.user_input:
                     for n in phrase:
-                        if word and n not in behaviours.unimportant_words:
+                        if word and n not in unimportant_words:
                             score += liquidmetal.score(n, word[0]) / self.input_len
                 if score >= 0.7:  # Could be increased/ decreased through testing to find more optimal value
                     self.response = random.choice(getattr(responses, phrase_type))
