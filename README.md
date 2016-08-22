@@ -25,5 +25,7 @@ $ ./scripts/start.sh
 ```
 When you finish, run `deactivate` to exit virtualenv
 
+### IDE
+
 #### PyCharm IDE is recomended (makes life better)
 https://www.jetbrains.com/pycharm/
