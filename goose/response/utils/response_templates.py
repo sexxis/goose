@@ -1,5 +1,9 @@
 from jinja2 import Template
-import check_pos_tags  # Will use to find parts
+
+
+def determine_response_type():
+    # Will determine what response template to choose from
+    return 'name_is'  # temporarily return this for testing purposes
 
 
 class ResponseTemplates(object):
@@ -11,17 +15,14 @@ class ResponseTemplates(object):
         self.name_is = Template('Hello {{noun}}!')
         self.like_noun = Template('I like {{noun}}')
 
-    def determine_response_type(self):
-        # Will determine what response template to choose from
-        return 'name_is'  # temporarily return this for testing purposes
-
-    def respond(self, resp_type):
+    def respond(self, resp_type=determine_response_type()):
         # Will add in any found parts to the determined response type
         return getattr(self, resp_type).render(noun=self.parts['noun'],
                                                verb=self.parts['verb'],
                                                adj=self.parts['adj'],
                                                pronoun=self.parts['pronoun'],
                                                prep=self.parts['prep'])
+
 
 # Tests
 if __name__ == '__main__':

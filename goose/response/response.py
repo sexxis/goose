@@ -1,10 +1,12 @@
 from textblob import TextBlob
 from stringscore import liquidmetal
-from utils import format_response, check_pos_tags
+from utils import check_pos_tags
+from utils.response_templates import ResponseTemplates
 from constants import *
 import random
 import operator
 import sys
+
 
 __author__ = "Waterloo SE'XXI"
 
@@ -75,11 +77,10 @@ class SexxiBot:
                     return True
         return False
 
-    def create_response(self):  # NOT WORKING YET!
-        # Craft a response based on user's message
-        noun, pronoun, verb, adj, prep, text_len = check_pos_tags.pos_tags(self.user_input)
-        self.response = format_response.craft_response(noun, pronoun, verb, adj, prep, text_len)
-        print self.response
+    def create_response(self):
+        # Create a template response based on parts in user_input
+        noun, pronoun, verb, adj, prep = check_pos_tags.pos_tags(self.user_input)
+        self.response = ResponseTemplates(noun=noun, pronoun=pronoun, verb=verb, adj=adj, prep=prep).respond()
         return False if self.response == ' ' else True
 
 

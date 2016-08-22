@@ -7,14 +7,11 @@ POS_PREP = "IN"
 
 
 def pos_tags(text):
-    noun = False
-    pronoun = False
-    verb = False
-    adj = False
-    prep = False
-
+    noun, pronoun, verb, adj, prep = None, None, None, None, None
     index = int()
+
     for word, pos in text:
+        print word, pos
         if noun and pronoun and verb and adj and prep:
             break
 
@@ -38,4 +35,4 @@ def pos_tags(text):
 
         index += 1
 
-    return noun, pronoun, verb, adj, prep, len(text)
+    return noun, pronoun, verb, adj, prep
