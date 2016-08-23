@@ -12,10 +12,8 @@ def pos_tags(text):
 
     for word, pos in text:
         # print word, pos
-        if noun and pronoun and verb and adj and prep:
-            break
 
-        elif pos == POS_NOUN and not noun:
+        if pos == POS_NOUN:
             noun = word
 
         elif pos == POS_PRONOUN and not pronoun:
@@ -25,7 +23,7 @@ def pos_tags(text):
                 pronoun = "you"
 
         elif pos.startswith(POS_VERB) and not verb:
-            verb = [word, index]
+            verb = word
 
         elif pos == POS_ADJ and not adj:
             adj = word

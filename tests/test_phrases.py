@@ -1,4 +1,4 @@
-class TestPhrases:
+class TestPhrases(object):
     def __init__(self):
         self.GREETING = ["hello",
                          "hey how are you"
@@ -22,3 +22,13 @@ class TestPhrases:
                         "What's waterloo's current weather?"
 
                         ]
+
+
+class TestTemplates(object):
+    def __init__(self):
+        self.num_cases = 2
+        self.case1 = ["I like pizza",
+                      "pizza sounds interesting"]
+
+        self.case2 = ["i love my computer",
+                      "computer sounds interesting"]

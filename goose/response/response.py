@@ -77,4 +77,4 @@ class SexxiBot(object):
         # Create a template response based on parts in user_input
         noun, pronoun, verb, adj, prep = check_pos_tags.pos_tags(self.user_input)
         self.response = ResponseTemplates(noun=noun, pronoun=pronoun, verb=verb, adj=adj, prep=prep).respond()
-        return False if self.response == ' ' else True
+        return False if self.response == str() else True

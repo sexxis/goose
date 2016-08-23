@@ -80,7 +80,7 @@ class Responses(object):
 unimportant_words = [
     "it",
     "is",
-    "to"
+    "to",
     ]
 
 # Used for fixing user typos or laziness

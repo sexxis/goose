@@ -20,7 +20,7 @@ def run_bot(user_input, start):
     for method in ['fix_typos', 'help_check', 'check_phrase_similarity', 'create_response']:
         if operator.methodcaller(method)(bot):
             return bot.response
-    return random.choice(keywords.UNSURE)  # If no response can be created
+    return random.choice(responses.UNSURE)  # If no response can be created
 
 
 # For testing purposes

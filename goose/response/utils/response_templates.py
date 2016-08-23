@@ -1,9 +1,8 @@
 from jinja2 import Template
 
 
-def determine_response_type():
-    # Will determine what response template to choose from
-    return 'name_is'  # temporarily return this for testing purposes
+class ResponseTypeNotFoundError(Exception):
+    pass
 
 
 class ResponseTemplates(object):
@@ -12,19 +11,27 @@ class ResponseTemplates(object):
         self.parts = {'noun': noun, 'verb': verb, 'adj': adj, 'pronoun': pronoun, 'prep': prep}
 
         # Will have a large amount of templates
-        self.name_is = Template('Hello {{noun}}!')
-        self.like_noun = Template('I like {{noun}}')
+        self.name_is = Template('Hello {{adj}}!')  # the name will be considered an adj.
+        self.like_noun = Template('{{noun}} sounds interesting')
 
-    def respond(self, resp_type=determine_response_type()):
-        # Will add in any found parts to the determined response type
-        return getattr(self, resp_type).render(noun=self.parts['noun'],
-                                               verb=self.parts['verb'],
-                                               adj=self.parts['adj'],
-                                               pronoun=self.parts['pronoun'],
-                                               prep=self.parts['prep'])
+    def determine_response_type(self):
+        if self.parts['noun'] == 'name' and self.parts['adj']:
+            return 'name_is'
+        elif self.parts['verb'] in ['like', 'love', 'want'] and self.parts['noun']:
+            return 'like_noun'
 
+        else:
+            raise ResponseTypeNotFoundError
 
-# Tests
-if __name__ == '__main__':
-    test = ResponseTemplates(noun="Dylan", pronoun=None, verb=None, adj=None, prep=None)
-    print test.respond('name_is')  # Prints "Hello Dylan!"
+    def respond(self):
+        try:    # if a response type is not found, the return will not work; raise an error
+            resp_type = self.determine_response_type()
+            # Will add in any found parts to the determined response type
+            return getattr(self, resp_type).render(noun=self.parts['noun'],
+                                                   verb=self.parts['verb'],
+                                                   adj=self.parts['adj'],
+                                                   pronoun=self.parts['pronoun'],
+                                                   prep=self.parts['prep'])
+
+        except ResponseTypeNotFoundError:
+            return self.response
