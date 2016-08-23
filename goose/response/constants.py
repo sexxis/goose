@@ -3,7 +3,7 @@ from goose.waterloo import connections
 PHRASE_TYPES = ['GREETING', 'FUN', 'ABOUT_SELF', 'MENU', 'WEATHER']  # Used for both KeyWords and Responses
 
 
-class KeyWords:
+class KeyWords(object):
     """
     Contains keywords/ phrases for the bot.
     Since the input similarity check gets divided by how many words were messaged,
@@ -40,7 +40,7 @@ class KeyWords:
         ]
 
 
-class Responses:
+class Responses(object):
     """ Contains simple responses for the bot"""
     def __init__(self):
         self.HELP = "Try asking: " \

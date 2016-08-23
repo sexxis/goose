@@ -11,7 +11,7 @@ def pos_tags(text):
     index = int()
 
     for word, pos in text:
-        print word, pos
+        # print word, pos
         if noun and pronoun and verb and adj and prep:
             break
 

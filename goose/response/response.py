@@ -4,11 +4,7 @@ from utils import check_pos_tags
 from utils.response_templates import ResponseTemplates
 from constants import *
 import random
-import operator
 import sys
-
-
-__author__ = "Waterloo SE'XXI"
 
 
 class Unbuffered(object):
@@ -29,7 +25,7 @@ keywords = KeyWords()
 responses = Responses()
 
 
-class SexxiBot:
+class SexxiBot(object):
     """ Main ChatBot class to take in user input and return an appropriate response.
 
     Contains methods: fix_typos, to correct any user's typos;
@@ -82,42 +78,3 @@ class SexxiBot:
         noun, pronoun, verb, adj, prep = check_pos_tags.pos_tags(self.user_input)
         self.response = ResponseTemplates(noun=noun, pronoun=pronoun, verb=verb, adj=adj, prep=prep).respond()
         return False if self.response == ' ' else True
-
-
-bot = SexxiBot()  # Instantiate the bot
-
-
-def run_bot(user_input, start):
-    """
-    :param(str) user_input: Message sent to the bot
-    :param(bool) start: If the user is new to the bot
-    :return(str) return: Response from the bot
-    """
-    if start:
-        bot.response = "Hello there! Have a chat with me or say 'help' to see available commands :)"
-        return bot.response
-
-    bot.user_input = user_input
-
-    # fix_typos:    Fix any user typos and slang
-    # check_phrase_similarity:  Check user's input similarity to all key phrases
-    # create_response:  If all key phrases fail, we gotta actually make a new sentence
-    for method in ['fix_typos', 'help_check', 'check_phrase_similarity', 'create_response']:
-        if operator.methodcaller(method)(bot):
-            return bot.response
-    return random.choice(responses.UNSURE)  # If no response can be created
-
-
-# For testing purposes
-def test():
-    print run_bot(raw_input("Enter a message: "), start=True)
-    while 1:
-        print run_bot(raw_input("Enter a message: "), start=False)
-
-
-# Make sure it's only when we're running this file directly
-if __name__ == '__main__':
-    try:
-        test()
-    except KeyboardInterrupt:  # No need for an error when stopping the program during testing
-        pass
