@@ -27,8 +27,8 @@ class TestPhrases(object):
 class TestTemplates(object):
     def __init__(self):
         self.num_cases = 2
-        self.case1 = ["I like pizza",
+        self.case1 = ["I love pizza",
                       "pizza sounds interesting"]
 
-        self.case2 = ["i love my computer",
+        self.case2 = ["i want my computer",
                       "computer sounds interesting"]

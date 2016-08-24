@@ -1,3 +1,3 @@
 export PYTHONPATH="${PYTHONPATH}:../"
 
-python ./goose/response/response.py
+python ./goose/main.py
